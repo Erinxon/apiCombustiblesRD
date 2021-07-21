@@ -21,7 +21,7 @@ namespace ApiCombustibles.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 86400)]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 5)]
         public async Task<ActionResult<ApiResponse<Combustible>>> Get()
         {
             var response = new ApiResponse<Combustible>();
