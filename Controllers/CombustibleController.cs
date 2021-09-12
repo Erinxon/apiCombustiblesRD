@@ -1,4 +1,4 @@
-﻿using ApiCombustibles.Models;
+﻿using ApiCombustibles.AppSettingModels;
 using ApiCombustibles.Response;
 using ApiCombustibles.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCombustibles.Models;
 
 namespace ApiCombustibles.Controllers
 {
@@ -19,15 +20,16 @@ namespace ApiCombustibles.Controllers
         {
             this._combustibleService = combustibleService;
         }
-
+        
+        
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 5)]
-        public async Task<ActionResult<ApiResponse<Combustible>>> Get()
+        public async Task<ActionResult<ApiResponse<List<Combustible>>>> Get2()
         {
-            var response = new ApiResponse<Combustible>();
+            var response = new ApiResponse<List<Combustible>>();
             try
             {
-                response.Data = await this._combustibleService.GetCombustible();
+                response.Combustibles = await this._combustibleService.GetCombustible();
             }
             catch (Exception ex)
             {

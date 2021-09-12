@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApiCombustibles.Models
+namespace ApiCombustibles.AppSettingModels
 {
-    public class SectionUrlPage
+    public class UrlPage
     {
         public string Url { get; set; }
+        public string Url2 { get; set; }
     }
 }

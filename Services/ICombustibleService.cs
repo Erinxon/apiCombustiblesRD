@@ -1,13 +1,14 @@
-﻿using ApiCombustibles.Models;
+﻿using ApiCombustibles.AppSettingModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCombustibles.Models;
 
 namespace ApiCombustibles.Services
 {
     public interface ICombustibleService
     {
-        Task<Combustible> GetCombustible();
+        Task<List<Combustible>> GetCombustible();
     }
 }

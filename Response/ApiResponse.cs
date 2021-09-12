@@ -7,7 +7,7 @@ namespace ApiCombustibles.Response
 {
     public class ApiResponse<T>
     {
-        public T Data { get; set; }
+        public T Combustibles { get; set; }
         public bool Success { get; set; } = true;
         public string Message { get; set; }
     }

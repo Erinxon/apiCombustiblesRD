@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCombustibles.AppSettingModels;
 
 namespace ApiCombustibles
 {
@@ -37,8 +38,8 @@ namespace ApiCombustibles
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiCombustibles", Version = "v1" });
             });
-            var sectionUrlPage = Configuration.GetSection("SectionUrlPage");
-            services.Configure<SectionUrlPage>(sectionUrlPage);
+            services.Configure<UrlPage>(Configuration.GetSection("UrlPage"));
+            services.Configure<XPathExpression>(Configuration.GetSection("XPathExpression"));
             services.AddScoped<ICombustibleService, CombustibleService>();
             services.AddResponseCaching();
         }

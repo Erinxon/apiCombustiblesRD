@@ -1,66 +1,37 @@
-﻿using ApiCombustibles.Models;
+﻿using ApiCombustibles.AppSettingModels;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiCombustibles.Models;
+using ApiCombustibles.Handles;
 
 namespace ApiCombustibles.Services
 {
     public class CombustibleService : ICombustibleService
     {
-        private readonly SectionUrlPage _sectionUrlPage;
+        private readonly XPathExpression _xpath;
+        private readonly UrlPage _UrlPage;
 
-        public CombustibleService(IOptions<SectionUrlPage> sectionUrlPage)
+        public CombustibleService(IOptions<UrlPage> urlPage, IOptions<XPathExpression> xpath)
         {
-            this._sectionUrlPage = sectionUrlPage.Value;
+            this._xpath = xpath.Value;
+            this._UrlPage = urlPage.Value;
         }
 
-        public async Task<Combustible> GetCombustible()
+        public async Task<List<Combustible>> GetCombustible()
         {
-            Combustible combustible = new();
-            var listaPreciosCombustibles = await RequestPage();
-            combustible.GasolinaPremium = listaPreciosCombustibles[(int)EnumCombistible.GasolinaPremium];
-            combustible.GasolinaRegular = listaPreciosCombustibles[(int)EnumCombistible.GasolinaRegular];
-            combustible.GasoilOptimo = listaPreciosCombustibles[(int)EnumCombistible.GasoilOptimo];
-            combustible.GasoilRegular = listaPreciosCombustibles[(int)EnumCombistible.GasoilRegular];
-            combustible.Kerosene = listaPreciosCombustibles[(int)EnumCombistible.Kerosene];
-            combustible.GasLicuadoPetroleoGLP = listaPreciosCombustibles[(int)EnumCombistible.GasLicuadoPetroleoGLP];
-            combustible.GasNaturalVehicularGNV = listaPreciosCombustibles[(int)EnumCombistible.GasNaturalVehicularGNV];
-            return combustible;
+            var htmlDoc = await GetHtmlDocument();
+            return  htmlDoc.GetCombustibles(_xpath);
         }
-
-        private async Task<string[]> RequestPage()
+        
+        private async Task<HtmlDocument> GetHtmlDocument()
         {
             HtmlWeb htmlWeb = new();
-            HtmlDocument htmlDoc = await htmlWeb
-                .LoadFromWebAsync(this._sectionUrlPage.Url);
-            var regs = htmlDoc.DocumentNode
-                .SelectSingleNode(@"(//table[@class='art-data-table art-data-table-condensed'])[last()]");
-
-            var listaPreciosCombustibles = regs.InnerText
-              .Replace("CombustiblesPreciosGasolina PremiumRD$ ", "")
-              .Replace("Gasolina RegularRD$ ", ";")
-              .Replace("Gasoil ÓptimoRD$ ", ";")
-              .Replace("Gasoil RegularRD$ ", ";")
-              .Replace("KeroseneRD$ ", ";")
-              .Replace("Gas Licuado de Petróleo (GLP)RD$ ", ";")
-              .Replace("Gas Natural Vehicular (GNV)RD$ ", ";").Split(";");
-
-            return listaPreciosCombustibles;
-
+            return await htmlWeb.LoadFromWebAsync(this._UrlPage.Url2);
         }
     }
 
-    public enum EnumCombistible
-    {
-        GasolinaPremium,
-        GasolinaRegular,
-        GasoilOptimo,
-        GasoilRegular,
-        Kerosene,
-        GasLicuadoPetroleoGLP,
-        GasNaturalVehicularGNV  
-    }
 }
