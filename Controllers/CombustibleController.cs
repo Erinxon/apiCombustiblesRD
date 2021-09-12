@@ -21,10 +21,9 @@ namespace ApiCombustibles.Controllers
             this._combustibleService = combustibleService;
         }
         
-        
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 5)]
-        public async Task<ActionResult<ApiResponse<List<Combustible>>>> Get2()
+        public async Task<ActionResult<ApiResponse<List<Combustible>>>> Get()
         {
             var response = new ApiResponse<List<Combustible>>();
             try
@@ -34,9 +33,9 @@ namespace ApiCombustibles.Controllers
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = "Se produjo un error al obtener los datos";
             }
-            return response;
+            return response.Success ? Ok(response) : BadRequest(response);
         }
     }
 }

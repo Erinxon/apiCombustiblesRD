@@ -30,7 +30,7 @@ namespace ApiCombustibles.Services
         private async Task<HtmlDocument> GetHtmlDocument()
         {
             HtmlWeb htmlWeb = new();
-            return await htmlWeb.LoadFromWebAsync(this._UrlPage.Url2);
+            return await htmlWeb.LoadFromWebAsync(this._UrlPage.Url);
         }
     }
 

@@ -8,6 +8,5 @@ namespace ApiCombustibles.AppSettingModels
     public class UrlPage
     {
         public string Url { get; set; }
-        public string Url2 { get; set; }
     }
 }
