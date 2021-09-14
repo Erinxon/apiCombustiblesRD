@@ -23,14 +23,17 @@ namespace ApiCombustibles.Services
 
         public async Task<List<Combustible>> GetCombustible()
         {
-            var htmlDoc = await GetHtmlDocument();
+            var taskhtmlDoc = new Task<HtmlDocument>(GetHtmlDocument);
+            taskhtmlDoc.Start();
+            var htmlDoc = await taskhtmlDoc;
+            taskhtmlDoc.Dispose();
             return  htmlDoc.GetCombustibles(_xpath);
         }
         
-        private async Task<HtmlDocument> GetHtmlDocument()
+        private HtmlDocument GetHtmlDocument()
         {
             HtmlWeb htmlWeb = new();
-            return await htmlWeb.LoadFromWebAsync(this._UrlPage.Url);
+            return htmlWeb.Load(this._UrlPage.Url);
         }
     }
 
