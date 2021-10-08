@@ -10,7 +10,7 @@ namespace ApiCombustibles.Handles
     {
         public static List<Combustible> GetCombustibles(this HtmlDocument htmlDoc, XPathExpression xpath)
         {
-            var htmlNodes = htmlDoc.DocumentNode.SelectNodes(xpath.XPath);
+            var htmlNodes = htmlDoc.DocumentNode.SelectNodes(xpath.XPath).Take(7);
             var combustibles = htmlNodes.Select(n => new Combustible()
             {
                 Nombre = n.SelectNodes("td")[(int)EnumCombistible.nombre].InnerText, 

@@ -23,12 +23,12 @@ namespace ApiCombustibles.Controllers
         
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 5)]
-        public async Task<ActionResult<ApiResponse<List<Combustible>>>> Get()
+        public  ActionResult<ApiResponse<List<Combustible>>> Get()
         {
             var response = new ApiResponse<List<Combustible>>();
             try
             {
-                response.Combustibles = await this._combustibleService.GetCombustible();
+                response.Combustibles = this._combustibleService.GetCombustible();
             }
             catch (Exception ex)
             {

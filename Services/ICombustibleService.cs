@@ -9,6 +9,6 @@ namespace ApiCombustibles.Services
 {
     public interface ICombustibleService
     {
-        Task<List<Combustible>> GetCombustible();
+        List<Combustible> GetCombustible();
     }
 }
