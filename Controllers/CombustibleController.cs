@@ -33,7 +33,7 @@ namespace ApiCombustibles.Controllers
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = $"Se produjo un error al obtener los datos\n{ex.Message}";
+                response.Message = $"Se produjo un error al obtener los datos";
             }
             return response.Success ? Ok(response) : BadRequest(response);
         }
